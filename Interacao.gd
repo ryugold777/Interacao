@@ -37,7 +37,7 @@ func interacao():
 			proximaPagina = false
 
 
-# Próxima página. Para mais páginas acrescentar no topo do script e colocar a última p"página" neste bloco
+# Próxima página. Para mais páginas acrescentar no topo do script
 	if Input.is_action_just_released("confirmar") && finalizarTexto == true:
 		if pagina < totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= mensagem[pagina].length():
 			pagina = pagina + 1

@@ -67,8 +67,9 @@ func _process(_delta):
 #	print($Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters)
 	print(pagina)
 # Quando entrar na área
-func entrarArea(_body):
-	objeto = true
+func entrar_area(body):	
+	if (body.get_name() == "Robin_Erikson"):
+		objeto = true
 
 # Quando sair da área
 func sairArea(_body):

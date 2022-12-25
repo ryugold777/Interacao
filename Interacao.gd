@@ -6,6 +6,7 @@ var proximoTexto
 var objeto
 var proximaPagina = true
 var finalizarTexto
+                     #página 0               página 1              p
 var mensagem = ["oi tudo bom com voce", "ola ok voce esta aqui", "bom ainda bem"]
 # Inicia não mostrando a imagem da caixa de mensagem
 func _ready():
@@ -28,7 +29,7 @@ func interacao():
 	if Input.is_action_just_pressed("confirmar") && proximaPagina == true:
 			$Imagem_Caixa_Mensagem.visible = true
 			pagina = 0
-			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < mensagem[pagina].length():
+			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
 				$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters += 1
 				yield(get_tree().create_timer(0.1), "timeout")
 				mostrarMensagem()
@@ -39,16 +40,16 @@ func interacao():
 
 # Próxima página. Para mais páginas acrescentar no topo do script
 	if Input.is_action_just_released("confirmar") && finalizarTexto == true:
-		if pagina < totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= mensagem[pagina].length():
+		if pagina < totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
 			pagina = pagina + 1
-			$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters =  0
-			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < mensagem[pagina].length():
+			$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters = -1
+			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
 				$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters += 1
 				yield(get_tree().create_timer(0.1), "timeout")
 				mostrarMensagem()
 		if pagina >= 1:
 				mostrarMensagem()
-		if pagina >= totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= mensagem[pagina].length():
+		if pagina >= totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
 			proximoTexto = true
 #Fim da mensagem
 	if Input.is_action_just_released("confirmar") && proximoTexto == true:

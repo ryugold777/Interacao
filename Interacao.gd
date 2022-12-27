@@ -77,7 +77,6 @@ func interacao():
 		esconder_mensagem()
 		$som_texto.stop()
 		proxima_pagina = false
-		yield(get_tree().create_timer(0.3), "timeout")
 		texto_mensagem.visible_characters =  0
 		finalizar_texto = false
 		primeira_pagina = true

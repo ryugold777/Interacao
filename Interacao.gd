@@ -83,5 +83,5 @@ func interacao():
 		permissao_entrar_porta_presidente = true
 		primeira_pagina = true
 
-func _process(_delta):
+func _physics_process(_delta):
 	interacao()

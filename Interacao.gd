@@ -80,7 +80,6 @@ func interacao():
 		yield(get_tree().create_timer(0.3), "timeout")
 		texto_mensagem.visible_characters =  0
 		finalizar_texto = false
-		permissao_entrar_porta_presidente = true
 		primeira_pagina = true
 
 func _physics_process(_delta):

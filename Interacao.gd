@@ -1,89 +1,87 @@
 extends Area2D
 
 ###############################################################################
-# Script para interagir com NPC's e objetos. Caso o personagem "Robin_Erikson"#
-# Entra na área e presione a tecla de confirmar abrirá uma caixa de           #
-# mensagem. O valor da variável "pagina" dever ser sempre zero. O que deve    #
-# mudar é a variável "total_paginas". Caso o personagem saia da área e        #
-# pressionar a tecla de confirmação, não acontecerá nada. O Nó/Node           #
-# "$Imagem_Caixa_Mensagem/Exibir_Mensagem" é RichTextLabel.                   #
-#                                                                             #
+# Script de mensagem. Adicionei raycast2D por que encontrei um pequeno bug.   #
+# a variável "parar_player" serve para deixar o jogador parado quando         #
+# interagir com alguma coisa.                                                 #
 #                                                                             #
 # Autor: Gold Angel                                                           #
-# Data: Dias 5/25 de Dezembro de 2022, 18:45                                  #
-# Agradecimentos/Thanks to a KoBeWi                                           #
+# Data: Dias 13/27 de Dezembro de 2022, 16:56                                 #
 ###############################################################################
 
 # Declaração das variáveis
 var pagina = 0
-var total_paginas = 2
-var proximo_texto
-var objeto
-var proxima_pagina = true
-var finalizarTexto
-                     #página 0               página 1              p
-var mensagem = ["oi tudo bom com voce", "ola ok voce esta aqui", "bom ainda bem"]
-# Inicia não mostrando a imagem da caixa de mensagem
-func _ready():
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible = false
+var total_paginas = 0
+var proxima_pagina
+var colisao_player = false
+var primeira_pagina = true
+var finalizar_texto
+var mensagem = ["Hello! How are you?"]
+onready var texto_mensagem = get_parent().get_node("Imagem_Caixa_Mensagem_NPC/Caixa_Mensagem/Mensagem")
+onready var exibir_caixa_mensagem = get_parent().get_node("Imagem_Caixa_Mensagem_Heba/Caixa_Mensagem")
+onready var nome_npc = get_parent().get_node("Imagem_Caixa_Mensagem_NPC/Caixa_Mensagem/Nome_NPC")
+onready var face_nome = get_parent().get_node("Imagem_Caixa_Mensagem_NPC/Facesets/Face_Nome")
+onready var mina = get_parent().get_node("Player")
+onready var interacao_nome_kinematicbody2D = get_parent().get_node("RayCast2D")
 
 # Função mostrar a mensagem
-func mostrar_mensagem():
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.bbcode_enabled = true
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.set_bbcode(mensagem[pagina])
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.show()
+func mostrarMensagem():
+	exibir_caixa_mensagem.visible = true
+	texto_mensagem.bbcode_enabled = true
+	face_npc.visible = true
+	texto_mensagem.set_bbcode(mensagem[pagina])
+	texto_mensagem.show()
+	nome_recepcionista.text = "Nome NPC"
 
 # Função esconder a mensagem
 func esconder_mensagem():
-	$Imagem_Caixa_Mensagem.visible = false
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.hide()
-	$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters = 0
+	exibir_caixa_mensagem.visible = false
+	face_npc.visible = false
+	texto_mensagem.hide()
+	texto_mensagem.visible_characters = 0
 
 # Função interagir com objetos e NPC's
 func interacao():
-	if Input.is_action_just_pressed("confirmar") && proxima_pagina == true:
-			$Imagem_Caixa_Mensagem.visible = true
+	if Input.is_action_just_pressed("atirar") && (primeira_pagina == true) && interacao_recepcionista_npc.is_colliding() && (player.animation == "Direita"):
+			get_parent().get_node("Player").parar_player = true
+			exibir_caixa_mensagem.visible = true
 			pagina = 0
-			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
-				$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters += 1
+			$som_texto.stream_paused = false
+			while (texto_mensagem.visible_characters) <= (texto_mensagem.text.length()):
+				texto_mensagem.visible_characters += 1
+				$som_texto.play()
 				yield(get_tree().create_timer(0.1), "timeout")
-				mostrar_mensagem()
+				mostrarMensagem()
 
 			finalizar_texto = true
-			proxima_pagina = false
-
+			primeira_pagina = false
 
 # Próxima página. Para mais páginas acrescentar no topo do script
-	if Input.is_action_just_released("confirmar") && finalizar_texto == true:
-		if pagina < totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
+	if Input.is_action_just_released("confirmar") && proxima_pagina == true:
+		if (pagina < total_paginas) && (texto_mensagem.visible_characters) >= (texto_mensagem.text.length()):
+			texto_mensagem.visible_characters = -1
 			pagina = pagina + 1
-			$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters = -1
-			while $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters < $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
-				$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters += 1
+			while (texto_mensagem.visible_characters) < (texto_mensagem.text.length()):
+				texto_mensagem.visible_characters += 1
 				yield(get_tree().create_timer(0.1), "timeout")
-				mostrar_mensagem()
-		if pagina >= 1:
-				mostrar_mensagem()
-		if pagina >= totalPaginas && $Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters >= $Imagem_Caixa_Mensagem/Exibir_Mensagem.text.length():
-			proximo_texto = true
-#Fim da mensagem
-	if Input.is_action_just_released("confirmar") && proximo_texto == true:
-		esconder_mensagem()
-		proximo_texto = false
-		yield(get_tree().create_timer(0.3), "timeout")
-		$Imagem_Caixa_Mensagem/Exibir_Mensagem.visible_characters =  0
-		proxima_pagina = true
-		finalizar_texto = false
+				mostrarMensagem()
+		if (pagina > 1):
+				mostrarMensagem()
+		if (pagina >= total_paginas) && (texto_mensagem.visible_characters) >= (texto_mensagem.text.length()):
+			finalizar_texto = true
 
-# Chamada da função interacao()
+#Fim da mensagem
+	if (Input.is_action_just_released("atirar")) && (finalizar_texto == true) && (player.animation == "Direita"):
+		get_parent().get_node("Player").parar_mina = false
+		$som_texto.stream_paused = true
+		esconder_mensagem()
+		$som_texto.stop()
+		proxima_pagina = false
+		yield(get_tree().create_timer(0.3), "timeout")
+		texto_mensagem.visible_characters =  0
+		finalizar_texto = false
+		permissao_entrar_porta_presidente = true
+		primeira_pagina = true
+
 func _process(_delta):
 	interacao()
-
-# Quando entrar na área
-func entrar_area(body):	
-	if (body.get_name() == "Robin_Erikson"):
-		objeto = true
-
-# Quando sair da área
-func sairArea(_body):
-	objeto = false

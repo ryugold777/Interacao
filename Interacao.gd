@@ -1,9 +1,9 @@
 extends Area2D
 
 ###############################################################################
-# Script de mensagem. Adicionei raycast2D por que encontrei um pequeno bug.   #
-# a variável "parar_player" serve para deixar o jogador parado quando         #
-# interagir com alguma coisa.                                                 #
+# Script de mensagem. Adicionei raycast2D por que encontrei um pequeno bug no.#
+# antigo script a variável "parar_player" serve para deixar o jogador parado  #
+# quando interagir com alguma coisa.                                          #
 #                                                                             #
 # Autor: Gold Angel                                                           #
 # Data: Dias 13/27 de Dezembro de 2022, 16:56                                 #

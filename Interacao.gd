@@ -9,6 +9,7 @@ extends Area2D
 #                                                                             #
 # Autor: Gold Angel                                                           #
 # Data: Dias 13/27 de Dezembro de 2022, 16:56                                 #
+# Agradecimentos/Thanks to KoBeWi                                             #
 ###############################################################################
 
 # Declaração das variáveis

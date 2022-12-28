@@ -45,7 +45,7 @@ func esconder_mensagem():
 
 # Função interagir com objetos e NPC's
 func interacao():
-	if Input.is_action_just_pressed("atirar") && (primeira_pagina == true) && interacao_recepcionista_npc.is_colliding() && (player.animation == "Direita"):
+	if Input.is_action_just_pressed("atirar") && (primeira_pagina == true) && interacao_npc.is_colliding() && (player.animation == "Direita"):
 			get_parent().get_node("Player").parar_player = true
 			exibir_caixa_mensagem.visible = true
 			pagina = 0

@@ -3,7 +3,8 @@ extends Area2D
 ###############################################################################
 # Script de mensagem. Adicionei raycast2D por que encontrei um pequeno bug no.#
 # antigo script a variável "parar_player" serve para deixar o jogador parado  #
-# quando interagir com alguma coisa.                                          #
+# quando interagir com alguma coisa. Adicionei um tempo quando acabar de      #
+# exibir a mensagem.                                                          #
 #                                                                             #
 # Autor: Gold Angel                                                           #
 # Data: Dias 13/27 de Dezembro de 2022, 16:56                                 #
@@ -52,6 +53,7 @@ func interacao():
 				$som_texto.play()
 				yield(get_tree().create_timer(0.1), "timeout")
 				mostrarMensagem()
+			yield(get_tree().create_timer(0.2), "timeout")
 
 			finalizar_texto = true
 			primeira_pagina = false
@@ -78,6 +80,7 @@ func interacao():
 		$som_texto.stop()
 		proxima_pagina = false
 		texto_mensagem.visible_characters =  0
+		yield(get_tree().create_timer(0.2), "timeout")
 		finalizar_texto = false
 		primeira_pagina = true
 

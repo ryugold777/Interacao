@@ -8,7 +8,7 @@ extends Area2D
 # quando acabar de exibir a mensagem.                                         #
 #                                                                             #
 # Autor: Gold Angel                                                           #
-# Data: Dias 13/27 de Dezembro de 2022, 16:56                                 #
+# Data: Dias 13/27/28 de Dezembro de 2022, 10:05                              #
 # Agradecimentos/Thanks to KoBeWi                                             #
 ###############################################################################
 
